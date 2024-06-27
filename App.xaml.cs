@@ -1,17 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Globalization;
+using System.Threading;
 using System.Windows;
 
 namespace NonPCGame_Discord
 {
-    /// <summary>
-    /// App.xaml の相互作用ロジック
-    /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            // システムのカルチャを取得
+            CultureInfo currentCulture = CultureInfo.CurrentUICulture;
+
+            // アプリケーションのカルチャを設定
+            Thread.CurrentThread.CurrentCulture = currentCulture;
+            Thread.CurrentThread.CurrentUICulture = currentCulture;
+
+            // リソースファイルのカルチャを更新
+            NonPCGame_Discord.Properties.Resources.Culture = currentCulture;
+        }
     }
 }

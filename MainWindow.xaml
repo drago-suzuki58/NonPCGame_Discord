@@ -4,9 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NonPCGame_Discord"
+        xmlns:properties="clr-namespace:NonPCGame_Discord.Properties"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="{x:Static properties:Resources.Title_MainWindow}" Height="450" Width="800">
     <Grid>
-        
+        <Menu>
+            <MenuItem x:Name="menuItem_Setting" Header="{x:Static properties:Resources.Setting}">
+                <MenuItem x:Name="menuItem_Setting_Language" Header="{x:Static properties:Resources.Setting_Language}">
+                    <MenuItem Header="日本語(ja-JP)" Tag="ja-JP" Click="ChangeLanguage_Click"/>
+                    <MenuItem Header="English(en-US)" Tag="en-US" Click="ChangeLanguage_Click"/>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
     </Grid>
 </Window>
