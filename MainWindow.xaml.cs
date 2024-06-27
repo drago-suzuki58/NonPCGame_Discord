@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Discord;
 
 namespace NonPCGame_Discord
 {
@@ -22,10 +23,71 @@ namespace NonPCGame_Discord
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        private bool isInitializationComplete = false;
+        public Discord.Discord discord;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            this.Closing += MainWindow_Closing;
+
+            Initialize();
+
+            Task.Run(() =>
+            {
+                while (true)
+                {
+                    discord.RunCallbacks();
+                    Thread.Sleep(1000); // 1秒ごとにコールバックを実行
+                }
+            });
+        }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (isInitializationComplete)
+            {
+                MessageBoxResult result = MessageBox.Show(Properties.Resources.confirmation_BeforeInit, Properties.Resources.confirmation, MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.No)
+                {
+                    e.Cancel = true;
+                }
+                else
+                {
+                    MainWindow_Closed();
+                }
+            }
+            else
+            {
+                MessageBoxResult result = MessageBox.Show(Properties.Resources.confirmation_common, Properties.Resources.confirmation, MessageBoxButton.YesNo, MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.No)
+                {
+                    e.Cancel = true;
+                }
+                else
+                {
+                    MainWindow_Closed();
+                }
+            }
+        }
+
+        private void MainWindow_Closed()
+        {
+            // Discordオブジェクトの解放
+            discord.Dispose();
+        }
+
+        private void Initialize()
+        {
             UpdateUI();
+            discord = DiscordInit();
+            DiscordActivity(discord);
+            isInitializationComplete = true;
+            Console.WriteLine("Initialization complete.");
         }
 
         private void ChangeLanguage_Click(object sender, RoutedEventArgs e)
@@ -61,6 +123,37 @@ namespace NonPCGame_Discord
                     item.IsChecked = cultureName == Thread.CurrentThread.CurrentUICulture.Name;
                 }
             }
+        }
+
+        private Discord.Discord DiscordInit()
+        {
+            Discord.Discord discord = new Discord.Discord(1255625655844995123, (ulong)CreateFlags.Default);
+
+            return discord;
+        }
+
+        private void DiscordActivity(Discord.Discord discord)
+        {
+            var activityManager = discord.GetActivityManager();
+            var activity = new Activity
+            {
+                // テストコード(WIP)
+                Details = "Details",
+                State = "State",
+            };
+
+            activityManager.UpdateActivity(activity, (result) =>
+            {
+                if (result == Result.Ok)
+                {
+                    Console.WriteLine("Activity updated successfully.");
+                    // アクティビティの更新に成功した場合のみ実行したい処理を記述(WIP)
+                }
+                else
+                {
+                    Console.WriteLine("Activity failed to update.");
+                }
+            });
         }
     }
 }

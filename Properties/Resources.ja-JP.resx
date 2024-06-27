@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="confirmation" xml:space="preserve">
+    <value>確認</value>
+  </data>
+  <data name="confirmation_BeforeInit" xml:space="preserve">
+    <value>ウィンドウを閉じますか？\n初期化が完了していないため、データが失われる可能性があります。</value>
+  </data>
+  <data name="confirmation_common" xml:space="preserve">
+    <value>ウィンドウを閉じますか？</value>
+  </data>
   <data name="Setting" xml:space="preserve">
     <value>設定</value>
   </data>
@@ -125,5 +134,8 @@
   </data>
   <data name="Title_MainWindow" xml:space="preserve">
     <value>Non PC Game Manager</value>
+  </data>
+  <data name="warning" xml:space="preserve">
+    <value>警告</value>
   </data>
 </root>

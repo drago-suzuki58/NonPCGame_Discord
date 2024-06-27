@@ -61,6 +61,33 @@ namespace NonPCGame_Discord.Properties {
         }
         
         /// <summary>
+        ///   Confirmation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string confirmation {
+            get {
+                return ResourceManager.GetString("confirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Do you want to close the window?\nData may be lost because initialization is not complete. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string confirmation_BeforeInit {
+            get {
+                return ResourceManager.GetString("confirmation_BeforeInit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Do you want to close the window? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string confirmation_common {
+            get {
+                return ResourceManager.GetString("confirmation_common", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Setting に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Setting {
@@ -84,6 +111,15 @@ namespace NonPCGame_Discord.Properties {
         public static string Title_MainWindow {
             get {
                 return ResourceManager.GetString("Title_MainWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Warning に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string warning {
+            get {
+                return ResourceManager.GetString("warning", resourceCulture);
             }
         }
     }
