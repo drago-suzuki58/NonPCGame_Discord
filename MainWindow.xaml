@@ -16,5 +16,9 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
+        <TextBlock x:Name="DetailsTextBlock" Text="{x:Static properties:Resources.Details}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,25,0,0" RenderTransformOrigin="0.495,-0.012" />
+        <TextBlock x:Name="StateTextBlock" Text="{x:Static properties:Resources.State}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="215,25,0,0" />
+        <ListBox x:Name="DetailsListBox" Width="200" Margin="10,45,590,50" SelectionChanged="DetailsListBox_SelectionChanged" />
+        <ListBox x:Name="StateListBox" Width="200" Margin="215,45,385,50" SelectionChanged="StateListBox_SelectionChanged"/>
     </Grid>
 </Window>

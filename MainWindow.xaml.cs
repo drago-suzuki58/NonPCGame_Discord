@@ -10,10 +10,13 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
+using System.Text.Json;
 using Discord;
 
 namespace NonPCGame_Discord
@@ -25,6 +28,7 @@ namespace NonPCGame_Discord
     {
 
         private bool isInitializationComplete = false;
+        private List<GameData> gameDataList;
         public Discord.Discord discord;
 
         public MainWindow()
@@ -83,11 +87,83 @@ namespace NonPCGame_Discord
 
         private void Initialize()
         {
+            gameDataList = new List<GameData>();
+            
             UpdateUI();
             discord = DiscordInit();
-            DiscordActivity(discord);
             isInitializationComplete = true;
             Console.WriteLine("Initialization complete.");
+        }
+
+        private void LoadDataFromJson()
+        {
+            string filePath = Properties.Resources._JsonFilePath;
+            if (!File.Exists(filePath))
+            {
+                Console.WriteLine("data.jsonが見つかりません。ロードをスキップします。");
+                return;
+            }
+
+            string json = File.ReadAllText(filePath);
+            gameDataList = JsonSerializer.Deserialize<List<GameData>>(json);
+
+            if (gameDataList == null)
+            {
+                Console.WriteLine("gameDataListがnullです。");
+                return;
+            }
+        }
+
+        private void DetailsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DetailsListBox.SelectedItem is string selectedDetail)
+            {
+                // デバッグポイントを設定
+                Console.WriteLine($"Selected Detail: {selectedDetail}");
+
+                var selectedGameData = gameDataList.FirstOrDefault(g => g.Details == selectedDetail);
+                if (selectedGameData != null)
+                {
+                    // デバッグポイントを設定
+                    Console.WriteLine($"Corresponding States: {string.Join(", ", selectedGameData.States)}");
+
+                    StateListBox.ItemsSource = selectedGameData.States;
+
+                    // StateListBoxの最初の項目を選択
+                    if (selectedGameData.States.Any())
+                    {
+                        StateListBox.SelectedIndex = 0;
+                        string selectedState = selectedGameData.States.First();
+                        DiscordActivity(discord, selectedDetail, selectedState);
+                    }
+                }
+                else
+                {
+                    // デバッグポイントを設定
+                    Console.WriteLine("No corresponding GameData found.");
+                }
+            }
+            else
+            {
+                // デバッグポイントを設定
+                Console.WriteLine("No item selected.");
+            }
+        }
+
+        private void StateListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DetailsListBox.SelectedItem is string selectedDetail && StateListBox.SelectedItem is string selectedState)
+            {
+                // デバッグポイントを設定
+                Console.WriteLine($"Selected State: {selectedState}");
+
+                DiscordActivity(discord, selectedDetail, selectedState);
+            }
+            else
+            {
+                // デバッグポイントを設定
+                Console.WriteLine("No item selected.");
+            }
         }
 
         private void ChangeLanguage_Click(object sender, RoutedEventArgs e)
@@ -114,6 +190,12 @@ namespace NonPCGame_Discord
             this.Title = Properties.Resources.Title_MainWindow;
             menuItem_Setting.Header = Properties.Resources.Setting;
             menuItem_Setting_Language.Header = Properties.Resources.Setting_Language;
+            DetailsTextBlock.Text = Properties.Resources.Details;
+            StateTextBlock.Text = Properties.Resources.State;
+
+            LoadDataFromJson();
+
+            DetailsListBox.ItemsSource = gameDataList.Select(g => g.Details).ToList();
 
             // 言語選択のMenuItemにチェックマークをつける
             foreach (MenuItem item in menuItem_Setting_Language.Items)
@@ -132,18 +214,17 @@ namespace NonPCGame_Discord
             return discord;
         }
 
-        private void DiscordActivity(Discord.Discord discord)
+        private void DiscordActivity(Discord.Discord discord, string details, string state)
         {
             var activityManager = discord.GetActivityManager();
             var activity = new Activity
             {
-                // テストコード(WIP)
-                Details = "Details",
-                State = "State",
+                Details = details,
+                State = state,
                 Timestamps =
-                {
-                    Start = DateTimeOffset.Now.ToUnixTimeSeconds() // プレイ開始時間（UNIXタイムスタンプ）
-                }
+        {
+            Start = DateTimeOffset.Now.ToUnixTimeSeconds() // プレイ開始時間（UNIXタイムスタンプ）
+        }
             };
 
             activityManager.UpdateActivity(activity, (result) =>
@@ -159,5 +240,11 @@ namespace NonPCGame_Discord
                 }
             });
         }
+    }
+
+    public class GameData
+    {
+        public string Details { get; set; }
+        public List<string> States { get; set; }
     }
 }

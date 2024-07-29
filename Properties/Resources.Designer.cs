@@ -61,6 +61,15 @@ namespace NonPCGame_Discord.Properties {
         }
         
         /// <summary>
+        ///   data.json に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string _JsonFilePath {
+            get {
+                return ResourceManager.GetString("_JsonFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Confirmation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string confirmation {
@@ -88,6 +97,15 @@ namespace NonPCGame_Discord.Properties {
         }
         
         /// <summary>
+        ///   Details に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Details {
+            get {
+                return ResourceManager.GetString("Details", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Setting に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Setting {
@@ -102,6 +120,24 @@ namespace NonPCGame_Discord.Properties {
         public static string Setting_Language {
             get {
                 return ResourceManager.GetString("Setting_Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   State に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string State {
+            get {
+                return ResourceManager.GetString("State", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Temp に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string temp {
+            get {
+                return ResourceManager.GetString("temp", resourceCulture);
             }
         }
         

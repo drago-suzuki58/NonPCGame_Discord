@@ -1,0 +1,14 @@
+﻿[
+    {
+        "Details": "English",
+        "States": ["State 1"]
+    },
+    {
+        "Details": "Game 1 Details",
+        "States": ["State 1", "State 2", "State 3"]
+    },
+    {
+        "Details": "Game 2 Details",
+        "States": ["State 1", "State 2"]
+    }
+]
