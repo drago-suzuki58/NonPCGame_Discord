@@ -47,7 +47,7 @@ namespace NonPCGame_Discord
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (isInitializationComplete)
+            if (!isInitializationComplete)
             {
                 MessageBoxResult result = MessageBox.Show(Properties.Resources.confirmation_BeforeInit, Properties.Resources.confirmation, MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
@@ -140,6 +140,10 @@ namespace NonPCGame_Discord
                 // テストコード(WIP)
                 Details = "Details",
                 State = "State",
+                Timestamps =
+                {
+                    Start = DateTimeOffset.Now.ToUnixTimeSeconds() // プレイ開始時間（UNIXタイムスタンプ）
+                }
             };
 
             activityManager.UpdateActivity(activity, (result) =>
